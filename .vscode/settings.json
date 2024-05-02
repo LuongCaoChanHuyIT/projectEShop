@@ -1,0 +1,11 @@
+{
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.preferredHighContrastColorTheme": "Default Light Modern",
+  "workbench.preferredLightColorTheme": "Default Light Modern",
+  "workbench.editor.decorations.colors": true,
+  "workbench.preferredDarkColorTheme": "Default Light Modern",
+  "workbench.preferredHighContrastLightColorTheme": "Default Light Modern",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.tips.enabled": false,
+  "workbench.tree.enableStickyScroll": true
+}
