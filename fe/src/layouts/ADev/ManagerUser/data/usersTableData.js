@@ -27,7 +27,19 @@ import team2 from "assets/images/team-2.jpg";
 // Icon
 import Icon from "@mui/material/Icon";
 
-const data = (users) => {
+// Dev import
+import { Link } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleUserDel,
+  idUserDel,
+  toggleUserEdi,
+  dataUserEdi,
+} from "../../../../redux/slices/togetherSlice";
+const data = () => {
+  const users = useSelector((state) => state.user.list);
+  const dispatch = useDispatch();
+
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -59,6 +71,17 @@ const data = (users) => {
       date.getFullYear()
     );
   };
+  const handleToggleModalDelete = (id) => {
+    dispatch(toggleUserDel());
+    dispatch(idUserDel(id));
+  };
+
+  const handleToggleModalEdit = (data) => {
+    dispatch(toggleUserEdi());
+    // console.log(data);
+    dispatch(dataUserEdi(data));
+  };
+
   const infoList = () => {
     let data = [];
     users.forEach((item) => {
@@ -76,7 +99,7 @@ const data = (users) => {
           </MDBox>
         ),
         employed: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          <MDTypography variant="caption" color="text" fontWeight="medium">
             {dateShow(Date(item.createdAt))}
           </MDTypography>
         ),
@@ -90,11 +113,23 @@ const data = (users) => {
               fontWeight="medium"
               px={2}
             >
-              <Icon fontSize="small">edit</Icon>
+              <Link
+                onClick={() => {
+                  handleToggleModalEdit(item);
+                }}
+              >
+                <Icon fontSize="small">edit</Icon>
+              </Link>
             </MDTypography>
 
-            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              <Icon fontSize="small">delete</Icon>
+            <MDTypography variant="caption" color="text" fontWeight="medium">
+              <Link
+                onClick={() => {
+                  handleToggleModalDelete(item.id);
+                }}
+              >
+                <Icon fontSize="small">delete</Icon>
+              </Link>
             </MDTypography>
           </>
         ),
@@ -103,6 +138,7 @@ const data = (users) => {
 
     return data;
   };
+
   return {
     columns: [
       { Header: "user", accessor: "user", width: "40%", align: "left" },

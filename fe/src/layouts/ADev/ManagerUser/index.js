@@ -40,44 +40,37 @@ import usersTableData from "layouts/ADev/ManagerUser/data/usersTableData";
 // ReactJs
 import { useEffect, useState } from "react";
 
-// Apis
-import { getUser } from "apis/users";
-import { getGroup } from "apis/groups";
-
 // Modal
 import ModalSave from "./ModalSave";
+import ModalDelete from "./ModalDelete";
+import ModalEdit from "./ModalEdit";
+import { fetchAllUsers } from "../../../redux/slices/userSlice";
+import { fetchAllGroups } from "../../../redux/slices/groupSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleUserSav } from "../../../redux/slices/togetherSlice";
 
-function Tables() {
+const index = () => {
+  const dispatch = useDispatch();
   // Init state
-  const [columns, setColumns] = useState([
-    { Header: "user", accessor: "user", width: "40%", align: "left" },
-    { Header: "group", accessor: "group", align: "left" },
-    { Header: "status", accessor: "status", align: "center" },
-    { Header: "employed", accessor: "employed", align: "center" },
-    { Header: "action", accessor: "action", align: "center" },
-  ]);
-  const [rows, setRows] = useState([{}]);
-  const [toggleModalSave, setToggleModalSave] = useState(false);
-  const [groups, setGroups] = useState([{}]);
+  const { columns, rows } = usersTableData();
+  const toggleUserSae = useSelector((state) => state.together.toggleUserSav);
+  const toggleUserEdi = useSelector((state) => state.together.toggleUserEdi);
+  const toggleUserDel = useSelector((state) => state.together.toggleUserDel);
   // Effect app
-  useEffect(() => {
-    fetchData();
-  }, []);
-
+  useEffect(() => {}, []);
   // Create function
   const fetchData = async () => {
-    let users = await getUser();
-    let group = await getGroup();
-
-    setGroups(group.data);
-    setRows(usersTableData(users.data).rows);
+    dispatch(fetchAllUsers());
+    dispatch(fetchAllGroups());
   };
-  const handleToggleModal = () => {
-    setToggleModalSave(!toggleModalSave);
+  const handleToggleModalSave = () => {
+    dispatch(toggleUserSav());
   };
   return (
     <>
-      <ModalSave show={toggleModalSave} hide={handleToggleModal} groups={groups} />
+      <ModalSave show={toggleUserSae} reload={fetchData} />
+      <ModalDelete show={toggleUserDel} />
+      <ModalEdit show={toggleUserEdi} reload={fetchData} />
       <DashboardLayout>
         <DashboardNavbar />
         <MDBox pt={6} pb={3}>
@@ -101,7 +94,7 @@ function Tables() {
                       </MDTypography>
                     </div>
                     <div className="p-2 ms-auto">
-                      <a onClick={() => handleToggleModal()}>
+                      <a onClick={() => handleToggleModalSave()}>
                         <MDButton size="large">
                           <Icon fontSize="large">create_new_folder</Icon> &nbsp; Save
                         </MDButton>
@@ -126,6 +119,6 @@ function Tables() {
       </DashboardLayout>
     </>
   );
-}
+};
 
-export default Tables;
+export default index;

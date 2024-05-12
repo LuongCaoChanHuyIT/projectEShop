@@ -7,6 +7,7 @@ const initApiRoutes = (app) => {
   /** Router user */
   router.post("/user/init", userController.init);
   router.get("/user/get", userController.get);
+  router.post("/user/get/one", userController.getOne);
   router.put("/user/set", userController.set);
   router.delete("/user/des", userController.des);
   /** Router group */

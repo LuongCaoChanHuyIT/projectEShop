@@ -12,22 +12,22 @@ import {
   Grid,
   CssBaseline,
   Avatar,
-  FormControl,
   InputLabel,
   Select,
   OutlinedInput,
   MenuItem,
+  Hidden,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import _ from "lodash";
 import { hasPassword } from "layouts/ADev/bcryptFunc";
 
 // Apis
-import { initUser } from "apis/users";
+import { setUser } from "apis/users";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleUserSav } from "../../../../redux/slices/togetherSlice";
+import { toggleUserEdi } from "../../../../redux/slices/togetherSlice";
 import { toast } from "react-toastify";
 const index = (props) => {
   const theme = useTheme();
@@ -35,6 +35,12 @@ const index = (props) => {
   const dispatch = useDispatch();
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
+  const groups = useSelector((state) => state.group.list);
+  const userForId = useSelector((state) => state.together.dataUserEdi).payload;
+  const userName = useRef();
+  const password = useRef();
+  const email = useRef();
+  const group = useRef();
   const style = {
     position: "absolute",
     top: "50%",
@@ -61,7 +67,7 @@ const index = (props) => {
     },
   };
   const [userData, setUserData] = useState(defaultUserData);
-  const groups = useSelector((state) => state.group.list);
+
   const getStyles = (name, group, theme) => {
     return {
       fontWeight:
@@ -80,11 +86,19 @@ const index = (props) => {
 
     setUserData(_userData);
   };
+
   const hide = () => {
-    dispatch(toggleUserSav());
+    dispatch(toggleUserEdi());
   };
   const handleSave = async () => {
-    let res = await initUser(userData);
+    let _userData = _.cloneDeep(userData);
+    _userData["email"] = email.current.value;
+    _userData["password"] = password.current.value;
+    _userData["userName"] = userName.current.value;
+
+    console.log(_userData);
+
+    let res = await setUser(_userData);
     if (res && res.err === 0) {
       toast.success(res.mes);
     } else {
@@ -120,7 +134,7 @@ const index = (props) => {
                     <LockOutlinedIcon />
                   </Avatar>
                   <Typography component="h1" variant="h5">
-                    Create New Users
+                    Edit User
                   </Typography>
                   <Box noValidate sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
@@ -132,7 +146,8 @@ const index = (props) => {
                           focused
                           id="userName"
                           label="User Name"
-                          defaultValue={userData.userName}
+                          defaultValue={userForId ? userForId.userName : userData.userName}
+                          inputRef={userName}
                           onChange={(event) => handleOnChangeInput(event.target.value, "userName")}
                         />
                       </Grid>
@@ -143,11 +158,14 @@ const index = (props) => {
                           label="Email Address"
                           name="email"
                           autoComplete="email"
-                          defaultValue={userData.email}
+                          defaultValue={userForId ? userForId.email : userData.email}
+                          inputRef={email}
                           onChange={(event) => handleOnChangeInput(event.target.value, "email")}
+                          disabled
                         />
                       </Grid>
-                      <Grid item xs={12}>
+
+                      <Grid item xs={12} className="d-none">
                         <TextField
                           fullWidth
                           name="password"
@@ -155,17 +173,20 @@ const index = (props) => {
                           type="password"
                           id="password"
                           autoComplete="new-password"
-                          defaultValue={userData.password}
+                          inputRef={password}
+                          defaultValue={userForId ? userForId.password : userData.password}
                           onChange={(event) => handleOnChangeInput(event.target.value, "password")}
                         />
                       </Grid>
+
                       <Grid item xs={12}>
                         <InputLabel id="demo-multiple-name-label">Group</InputLabel>
                         <Select
                           labelId="demo-multiple-name-label"
                           name="group"
                           fullWidth
-                          value={userData.group}
+                          value={userForId ? userForId.Group.name : userData.group}
+                          inputRef={group}
                           onChange={(event) => handleOnChangeInput(event.target.value, "group")}
                           input={<OutlinedInput label="Group" />}
                           MenuProps={MenuProps}
