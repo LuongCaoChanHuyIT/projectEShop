@@ -95,8 +95,7 @@ const index = (props) => {
     _userData["email"] = email.current.value;
     _userData["password"] = password.current.value;
     _userData["userName"] = userName.current.value;
-
-    console.log(_userData);
+    _userData["group"] = group.current.value;
 
     let res = await setUser(_userData);
     if (res && res.err === 0) {

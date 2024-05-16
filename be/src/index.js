@@ -3,13 +3,20 @@ require("dotenv").config();
 import viewEngine from "./config/viewEngine";
 import initApiRoutes from "./routes/api";
 import bodyParser from "body-parser";
-var cors = require("cors");
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = e();
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
 viewEngine(app);
-app.use(cors());
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 initApiRoutes(app);
 
 const PORT = process.env.PORT || 8080;

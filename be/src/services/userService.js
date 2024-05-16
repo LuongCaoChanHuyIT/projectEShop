@@ -3,11 +3,14 @@ import db from "../models";
 import { hashPassword } from "./bcryptFunc";
 const init = async (data) => {
   try {
-    if (data) {
+    let user = await db.User.findOne({
+      where: { email: data.email },
+    });
+    console.log(user);
+    if (!user) {
       let group = await db.Group.findOne({
         where: { name: data.group },
       });
-
       data = await db.User.create({
         userName: data.userName,
         password: data.password,
@@ -22,7 +25,7 @@ const init = async (data) => {
       };
     } else {
       return {
-        mes: "data create is exit",
+        mes: "Email user create is exit",
         err: 1,
         data: {},
       };

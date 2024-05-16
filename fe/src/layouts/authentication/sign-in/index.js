@@ -1,22 +1,7 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState } from "react";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -40,12 +25,46 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-
-function Basic() {
+import { useRef } from "react";
+import { toast } from "react-toastify";
+import { signIn } from "apis/authencation";
+const Basic = () => {
   const [rememberMe, setRememberMe] = useState(false);
-
+  const email = useRef();
+  const password = useRef();
+  const navigate = useNavigate();
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const validateEmail = (email) => {
+    let re =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    return re.test(email);
+  };
+  const handleSignIn = async () => {
+    let data = {
+      email: email.current.value,
+      password: password.current.value,
+    };
 
+    if (data.email === "" || data.password === "") {
+      toast.error("email or password not null !");
+    } else {
+      if (validateEmail(data.email)) {
+        let res = await signIn(data);
+        if (res.data !== null) {
+          if (res.err === 0) {
+            toast.success(res.mes);
+            // navigate("/dashboard");
+          } else {
+            toast.error(res.mes);
+          }
+        } else {
+          toast.error(res.mes);
+        }
+      } else {
+        toast.error("email format error !");
+      }
+    }
+  };
   return (
     <BasicLayout image={bgImage}>
       <Card>
@@ -84,10 +103,10 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput type="email" label="Email" inputRef={email} fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
+              <MDInput type="password" label="Password" inputRef={password} fullWidth />
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -102,7 +121,7 @@ function Basic() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton variant="gradient" color="info" fullWidth onClick={() => handleSignIn()}>
                 sign in
               </MDButton>
             </MDBox>
@@ -126,6 +145,6 @@ function Basic() {
       </Card>
     </BasicLayout>
   );
-}
+};
 
 export default Basic;

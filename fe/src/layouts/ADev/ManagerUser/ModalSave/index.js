@@ -12,12 +12,15 @@ import {
   Grid,
   CssBaseline,
   Avatar,
-  FormControl,
   InputLabel,
   Select,
   OutlinedInput,
+  IconButton,
   MenuItem,
+  InputAdornment,
 } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { useState } from "react";
@@ -60,6 +63,7 @@ const index = (props) => {
       },
     },
   };
+  const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState(defaultUserData);
   const groups = useSelector((state) => state.group.list);
   const getStyles = (name, group, theme) => {
@@ -77,21 +81,34 @@ const index = (props) => {
     } else {
       _userData[name] = value;
     }
-
     setUserData(_userData);
   };
   const hide = () => {
+    setUserData(defaultUserData);
     dispatch(toggleUserSav());
   };
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const handleSave = async () => {
-    let res = await initUser(userData);
-    if (res && res.err === 0) {
-      toast.success(res.mes);
+    if (
+      userData.email === "" ||
+      userData.userName === "" ||
+      userData.password === "" ||
+      userData.group === ""
+    ) {
+      toast.error("Data blank !");
     } else {
-      toast.error(res.mes);
+      let res = await initUser(userData);
+      if (res && res.err === 0) {
+        toast.success(res.mes);
+      } else {
+        toast.error(res.mes);
+      }
+      hide();
+      props.reload();
     }
-    hide();
-    props.reload();
   };
 
   // Render
@@ -130,8 +147,11 @@ const index = (props) => {
                           name="userName"
                           fullWidth
                           focused
+                          error={userData.userName ? false : true}
+                          helperText={userData.userName ? "" : "cannot be left blank"}
                           id="userName"
                           label="User Name"
+                          type="text"
                           defaultValue={userData.userName}
                           onChange={(event) => handleOnChangeInput(event.target.value, "userName")}
                         />
@@ -142,7 +162,10 @@ const index = (props) => {
                           id="email"
                           label="Email Address"
                           name="email"
+                          type="email"
                           autoComplete="email"
+                          error={userData.email ? false : true}
+                          helperText={userData.email ? "" : "cannot be left blank"}
                           defaultValue={userData.email}
                           onChange={(event) => handleOnChangeInput(event.target.value, "email")}
                         />
@@ -152,11 +175,27 @@ const index = (props) => {
                           fullWidth
                           name="password"
                           label="Password"
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           id="password"
                           autoComplete="new-password"
+                          error={userData.password ? false : true}
+                          helperText={userData.password ? "" : "cannot be left blank"}
                           defaultValue={userData.password}
                           onChange={(event) => handleOnChangeInput(event.target.value, "password")}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
                         />
                       </Grid>
                       <Grid item xs={12}>

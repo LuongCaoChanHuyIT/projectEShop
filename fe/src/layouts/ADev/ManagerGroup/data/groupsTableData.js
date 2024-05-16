@@ -31,15 +31,15 @@ import Icon from "@mui/material/Icon";
 import { Link } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  toggleUserDel,
-  idUserDel,
-  toggleUserEdi,
-  dataUserEdi,
+  toggleGroupDel,
+  idGroupDel,
+  toggleGroupEdi,
+  dataGroupEdi,
 } from "../../../../redux/slices/togetherSlice";
 const data = () => {
-  const users = useSelector((state) => state.user.list);
+  const groups = useSelector((state) => state.group.list);
   const dispatch = useDispatch();
-
+  // console.log(groups);
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -72,27 +72,21 @@ const data = () => {
     );
   };
   const handleToggleModalDelete = (id) => {
-    dispatch(toggleUserDel());
-    dispatch(idUserDel(id));
+    dispatch(toggleGroupDel());
+    dispatch(idGroupDel(id));
   };
 
   const handleToggleModalEdit = (data) => {
-    dispatch(toggleUserEdi());
-    // console.log(data);
-    dispatch(dataUserEdi(data));
+    dispatch(toggleGroupEdi());
+    dispatch(dataGroupEdi(data));
   };
 
   const infoList = () => {
     let data = [];
-    users.forEach((item) => {
+    groups.forEach((item) => {
       data.push({
-        user: <Author image={team2} name={item.userName} email={item.email} />,
-        group: (
-          <Job
-            title={item.Group ? item.Group.name : ""}
-            description={item.Group ? item.Group.description : ""}
-          />
-        ),
+        group: <Job title={item.name} description={""} />,
+        description: <Job title={""} description={item.description} />,
         status: (
           <MDBox ml={-1}>
             <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
@@ -141,8 +135,8 @@ const data = () => {
 
   return {
     columns: [
-      { Header: "user", accessor: "user", width: "40%", align: "left" },
-      { Header: "group", accessor: "group", align: "left" },
+      { Header: "group", accessor: "group", width: "30%", align: "left" },
+      { Header: "description", accessor: "description", align: "left" },
       { Header: "status", accessor: "status", align: "center" },
       { Header: "employed", accessor: "employed", align: "center" },
       { Header: "action", accessor: "action", align: "center" },

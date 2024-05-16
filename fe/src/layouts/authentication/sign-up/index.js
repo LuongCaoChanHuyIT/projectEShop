@@ -1,20 +1,5 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -31,8 +16,31 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-up-cover.jpeg";
+import { useRef } from "react";
 
-function Cover() {
+import { hasPassword } from "../../ADev/bcryptFunc";
+import { toast } from "react-toastify";
+import { signUp } from "../../../apis/authencation";
+const Cover = () => {
+  const email = useRef();
+  const password = useRef();
+  const userName = useRef();
+  const navigate = useNavigate();
+  const handleSignUp = async () => {
+    let data = {
+      email: email.current.value,
+      password: hasPassword(password.current.value),
+      userName: userName.current.value,
+    };
+    if (data.email === "" || data.userName === "") {
+      toast.error("User name or email not null !");
+    } else {
+      let res = await signUp(data);
+      toast.success("User sign in is success !");
+      navigate("/authentication/sign-up");
+      console.log(res);
+    }
+  };
   return (
     <CoverLayout image={bgImage}>
       <Card>
@@ -57,13 +65,19 @@ function Cover() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="text" label="Name" variant="standard" fullWidth />
+              <MDInput type="text" label="Name" variant="standard" fullWidth inputRef={userName} />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" variant="standard" fullWidth />
+              <MDInput type="email" label="Email" variant="standard" fullWidth inputRef={email} />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" variant="standard" fullWidth />
+              <MDInput
+                type="password"
+                label="Password"
+                variant="standard"
+                fullWidth
+                inputRef={password}
+              />
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
               <Checkbox />
@@ -87,8 +101,8 @@ function Cover() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
-                sign in
+              <MDButton variant="gradient" color="info" fullWidth onClick={() => handleSignUp()}>
+                sign up
               </MDButton>
             </MDBox>
             <MDBox mt={3} mb={1} textAlign="center">
@@ -111,6 +125,6 @@ function Cover() {
       </Card>
     </CoverLayout>
   );
-}
+};
 
 export default Cover;

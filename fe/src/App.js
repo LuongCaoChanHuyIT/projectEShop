@@ -60,7 +60,6 @@ import "react-toastify/dist/ReactToastify.css";
 //=============================REDUX==========================
 import { fetchAllUsers } from "./redux/slices/userSlice";
 import { fetchAllGroups } from "./redux/slices/groupSlice.js";
-
 import { useDispatch } from "react-redux";
 //=============================REDUX==========================
 export default function App() {
@@ -184,7 +183,7 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -222,7 +221,7 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
         </Routes>
       </ThemeProvider>
     </>
