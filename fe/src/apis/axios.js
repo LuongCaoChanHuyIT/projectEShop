@@ -32,7 +32,7 @@ instance.interceptors.response.use(
     switch (status) {
       case 401: {
         toast.error("authentication");
-        // window.location.href = "/authentication/sign-in";
+        window.location.href = "/authentication/sign-in";
         return Promise.reject(error);
       }
 

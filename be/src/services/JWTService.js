@@ -1,4 +1,3 @@
-import { Model } from "sequelize";
 import db from "../models/index";
 const getGroupWithRoles = async (user) => {
   let data = await db.Group.findOne(

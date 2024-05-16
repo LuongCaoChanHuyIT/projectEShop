@@ -6,15 +6,14 @@ import authenController from "../controllers/authenController";
 import { checkUserJWT } from "../middlewares/JWTActions";
 const router = e.Router();
 // const checkUserLogin = (req, res, next) => {
-//   const nonSecurePaths = ["/", "/signIn", "/signUp"];
+//   const nonSecurePaths = ["/signIn", "/signUp"];
 //   if (nonSecurePaths.includes(req.path)) return next();
 
 //   //authenticate user
-//   if (user) {
-//     next();
-//   } else {
-
-//   }
+//   // if (user) {
+//   //   next();
+//   // } else {
+//   // }
 // };
 const initApiRoutes = (app) => {
   /** Authentication */
@@ -28,7 +27,7 @@ const initApiRoutes = (app) => {
   router.delete("/user/des", userController.des);
   /** Router group */
   router.post("/group/init", groupController.init);
-  router.get("/group/get", groupController.get);
+  router.get("/group/get", checkUserJWT, groupController.get);
   router.post("/group/get/one", groupController.getOne);
   router.put("/group/set", groupController.set);
   router.delete("/group/des", groupController.des);
