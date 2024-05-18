@@ -27,6 +27,7 @@ const checkUserJWT = (req, res, next) => {
 
     let decoded = verifyToken(token.jwtUserData);
     if (decoded) {
+      req.user = decoded;
       next();
     } else {
       return res.status(401).json({

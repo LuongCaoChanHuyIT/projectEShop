@@ -51,88 +51,99 @@ import ManagerGroup from "layouts/ADev/ManagerGroup";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import { useSelector } from "react-redux";
 
-const routes = [
-  {
-    type: "collapse",
-    name: "Dashboard",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
-  },
-  {
-    type: "collapse",
-    name: "Manager User",
-    key: "ManagerUser",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/manager/user",
-    component: <ManagerUser />,
-  },
-  {
-    type: "collapse",
-    name: "Manager Group",
-    key: "ManagerGroup",
-    icon: <Icon fontSize="small">group</Icon>,
-    route: "/ManagerGroup",
-    component: <ManagerGroup />,
-  },
-  // {
-  //   type: "collapse",
-  //   name: "Tables",
-  //   key: "tables",
-  //   icon: <Icon fontSize="small">table_view</Icon>,
-  //   route: "/tables",
-  //   component: <Tables />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Billing",
-  //   key: "billing",
-  //   icon: <Icon fontSize="small">receipt_long</Icon>,
-  //   route: "/billing",
-  //   component: <Billing />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "RTL",
-  //   key: "rtl",
-  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-  //   route: "/rtl",
-  //   component: <RTL />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Notifications",
-  //   key: "notifications",
-  //   icon: <Icon fontSize="small">notifications</Icon>,
-  //   route: "/notifications",
-  //   component: <Notifications />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Profile",
-  //   key: "profile",
-  //   icon: <Icon fontSize="small">person</Icon>,
-  //   route: "/profile",
-  //   component: <Profile />,
-  // },
-  {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
-  },
-];
+const routes = () => {
+  const isLogin = useSelector((state) => state.auth.isLogin);
+  console.log(isLogin);
+  return [
+    isLogin
+      ? {
+          type: "collapse",
+          name: "Dashboard",
+          key: "dashboard",
+          icon: <Icon fontSize="small">dashboard</Icon>,
+          route: "/dashboard",
+          component: <Dashboard />,
+        }
+      : {},
+    isLogin
+      ? {
+          type: "collapse",
+          name: "Manager User",
+          key: "ManagerUser",
+          icon: <Icon fontSize="small">person</Icon>,
+          route: "/manager/user",
+          component: <ManagerUser />,
+        }
+      : {},
+    isLogin
+      ? {
+          type: "collapse",
+          name: "Manager Group",
+          key: "ManagerGroup",
+          icon: <Icon fontSize="small">group</Icon>,
+          route: "/ManagerGroup",
+          component: <ManagerGroup />,
+        }
+      : {},
+    {
+      type: "collapse",
+      name: "Sign In",
+      key: "sign-in",
+      icon: <Icon fontSize="small">login</Icon>,
+      route: "/authentication/sign-in",
+      component: <SignIn />,
+    },
+    {
+      type: "collapse",
+      name: "Sign Up",
+      key: "sign-up",
+      icon: <Icon fontSize="small">assignment</Icon>,
+      route: "/authentication/sign-up",
+      component: <SignUp />,
+    },
 
+    // {
+    //   type: "collapse",
+    //   name: "Tables",
+    //   key: "tables",
+    //   icon: <Icon fontSize="small">table_view</Icon>,
+    //   route: "/tables",
+    //   component: <Tables />,
+    // },
+    // {
+    //   type: "collapse",
+    //   name: "Billing",
+    //   key: "billing",
+    //   icon: <Icon fontSize="small">receipt_long</Icon>,
+    //   route: "/billing",
+    //   component: <Billing />,
+    // },
+    // {
+    //   type: "collapse",
+    //   name: "RTL",
+    //   key: "rtl",
+    //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+    //   route: "/rtl",
+    //   component: <RTL />,
+    // },
+    // {
+    //   type: "collapse",
+    //   name: "Notifications",
+    //   key: "notifications",
+    //   icon: <Icon fontSize="small">notifications</Icon>,
+    //   route: "/notifications",
+    //   component: <Notifications />,
+    // },
+    // {
+    //   type: "collapse",
+    //   name: "Profile",
+    //   key: "profile",
+    //   icon: <Icon fontSize="small">person</Icon>,
+    //   route: "/profile",
+    //   component: <Profile />,
+    // },
+  ];
+};
 export default routes;

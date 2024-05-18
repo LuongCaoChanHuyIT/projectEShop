@@ -57,7 +57,9 @@ const index = () => {
   const toggleUserEdi = useSelector((state) => state.together.toggleUserEdi);
   const toggleUserDel = useSelector((state) => state.together.toggleUserDel);
   // Effect app
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, []);
   // Create function
   const fetchData = async () => {
     dispatch(fetchAllUsers());

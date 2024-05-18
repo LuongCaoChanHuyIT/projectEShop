@@ -19,6 +19,7 @@ import { fetchAllUsers } from "../../../redux/slices/userSlice";
 import { fetchAllGroups } from "../../../redux/slices/groupSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleGroupSav } from "../../../redux/slices/togetherSlice";
+import { useEffect } from "react";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ const index = () => {
   const toggleGroupEdi = useSelector((state) => state.together.toggleGroupEdi);
   const toggleGroupDel = useSelector((state) => state.together.toggleGroupDel);
 
+  useEffect(() => {
+    dispatch(fetchAllGroups());
+  }, []);
   // Create function
   const fetchData = async () => {
     dispatch(fetchAllUsers());

@@ -1,8 +1,11 @@
 import axios from "axios"; // Set config defaults when creating the instance
+
 import { toast } from "react-toastify";
 const instance = axios.create({
   baseURL: "http://localhost:8080/api",
 });
+// const navigate = useNavigate();
+
 instance.defaults.withCredentials = true;
 // // Alter defaults after instance has been created
 // instance.defaults.headers.common["Authorization"] = "AUTH_TOKEN 111122333";
@@ -32,40 +35,33 @@ instance.interceptors.response.use(
     switch (status) {
       case 401: {
         toast.error("authentication");
-        window.location.href = "/authentication/sign-in";
         return Promise.reject(error);
       }
-
       // forbidden (permission related issues)
       case 403: {
         toast.error("forbidden");
         return Promise.reject(error);
       }
-
       // bad request
       case 400: {
         toast.error("bad request");
         return Promise.reject(error);
       }
-
       // not found
       case 404: {
         toast.error("not found");
         return Promise.reject(error);
       }
-
       // conflict
       case 409: {
         toast.error("conflict");
         return Promise.reject(error);
       }
-
       // unprocessable
       case 422: {
         toast.error("unprocessable");
         return Promise.reject(error);
       }
-
       // generic api error (server related) unexpected
       default: {
         toast.error("generic api error");

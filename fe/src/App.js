@@ -45,7 +45,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
-import routes from "routes";
+import routesFunc from "./routes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -60,14 +60,16 @@ import "react-toastify/dist/ReactToastify.css";
 //=============================REDUX==========================
 import { fetchAllUsers } from "./redux/slices/userSlice";
 import { fetchAllGroups } from "./redux/slices/groupSlice.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //=============================REDUX==========================
-export default function App() {
+const App = () => {
   //=============================REDUX==========================
   const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.auth.isLogin);
+  const routes = routesFunc();
   useEffect(() => {
-    dispatch(fetchAllUsers());
-    dispatch(fetchAllGroups());
+    // dispatch(fetchAllUsers());
+    // dispatch(fetchAllGroups());
   }, []);
   //=============================REDUX==========================
   const [controller, dispatcha] = useMaterialUIController();
@@ -226,4 +228,5 @@ export default function App() {
       </ThemeProvider>
     </>
   );
-}
+};
+export default App;
