@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { isLogin } from "./authSlice";
 
 const initialState = {
   // user

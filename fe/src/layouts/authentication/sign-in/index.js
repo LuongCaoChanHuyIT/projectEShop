@@ -28,10 +28,8 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { signIn } from "apis/authencation";
-import { useDispatch, useSelector } from "react-redux";
-import { isLogin } from "../../../redux/slices/authSlice";
+
 const Basic = () => {
-  const dispatch = useDispatch();
   const [rememberMe, setRememberMe] = useState(false);
   const email = useRef();
   const password = useRef();
@@ -43,6 +41,7 @@ const Basic = () => {
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     return re.test(email);
   };
+
   const handleSignIn = async () => {
     let data = {
       email: email.current.value,
@@ -56,7 +55,6 @@ const Basic = () => {
         let res = await signIn(data);
         if (res.data !== null) {
           if (res.err === 0) {
-            dispatch(isLogin());
             toast.success(res.mes);
             navigate("/dashboard");
           } else {

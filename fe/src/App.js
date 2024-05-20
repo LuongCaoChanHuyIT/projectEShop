@@ -55,8 +55,9 @@ import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 
 import { ToastContainer, Bounce } from "react-toastify";
-
+import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 //=============================REDUX==========================
 import { fetchAllUsers } from "./redux/slices/userSlice";
 import { fetchAllGroups } from "./redux/slices/groupSlice.js";
@@ -65,8 +66,10 @@ import { useDispatch, useSelector } from "react-redux";
 const App = () => {
   //=============================REDUX==========================
   const dispatch = useDispatch();
-  const isLogin = useSelector((state) => state.auth.isLogin);
+
   const routes = routesFunc();
+  const navigate = useNavigate();
+
   useEffect(() => {
     // dispatch(fetchAllUsers());
     // dispatch(fetchAllGroups());
@@ -164,36 +167,11 @@ const App = () => {
     </MDBox>
   );
 
-  return direction === "rtl" ? (
-    <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-        <CssBaseline />
-        {layout === "dashboard" && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Material Dashboard 2"
-              routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            />
-            <Configurator />
-            {configsButton}
-          </>
-        )}
-        {layout === "vr" && <Configurator />}
-        <Routes>
-          {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
-        </Routes>
-      </ThemeProvider>
-    </CacheProvider>
-  ) : (
+  return (
     <>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -202,7 +180,6 @@ const App = () => {
         draggable
         pauseOnHover
         theme="light"
-        // transition: Bounce,
       />
       <ThemeProvider theme={darkMode ? themeDark : theme}>
         <CssBaseline />
@@ -211,7 +188,7 @@ const App = () => {
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Admin Manger "
+              brandName="Admin Manager "
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}

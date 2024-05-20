@@ -51,10 +51,10 @@ import ManagerGroup from "layouts/ADev/ManagerGroup";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-import { useSelector } from "react-redux";
 
+import Cookies from "js-cookie";
 const routes = () => {
-  const isLogin = useSelector((state) => state.auth.isLogin);
+  const isLogin = Cookies.get("jwtUserData") ? true : false;
   console.log(isLogin);
   return [
     isLogin
@@ -87,23 +87,27 @@ const routes = () => {
           component: <ManagerGroup />,
         }
       : {},
-    {
-      type: "collapse",
-      name: "Sign In",
-      key: "sign-in",
-      icon: <Icon fontSize="small">login</Icon>,
-      route: "/authentication/sign-in",
-      component: <SignIn />,
-    },
-    {
-      type: "collapse",
-      name: "Sign Up",
-      key: "sign-up",
-      icon: <Icon fontSize="small">assignment</Icon>,
-      route: "/authentication/sign-up",
-      component: <SignUp />,
-    },
-
+    {},
+    isLogin
+      ? {}
+      : {
+          type: "collapse",
+          name: "Sign In",
+          key: "sign-in",
+          icon: <Icon fontSize="small">login</Icon>,
+          route: "/authentication/sign-in",
+          component: <SignIn />,
+        },
+    isLogin
+      ? {}
+      : {
+          type: "collapse",
+          name: "Sign Up",
+          key: "sign-up",
+          icon: <Icon fontSize="small">assignment</Icon>,
+          route: "/authentication/sign-up",
+          component: <SignUp />,
+        },
     // {
     //   type: "collapse",
     //   name: "Tables",

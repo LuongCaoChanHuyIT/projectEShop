@@ -34,12 +34,13 @@ instance.interceptors.response.use(
     const status = (error.response && error.response.status) || 500;
     switch (status) {
       case 401: {
-        toast.error("authentication");
+        toast.error("not authenticated the user");
+        window.location.href = "/";
         return Promise.reject(error);
       }
       // forbidden (permission related issues)
       case 403: {
-        toast.error("forbidden");
+        toast.error("you don't permission to access this resource");
         return Promise.reject(error);
       }
       // bad request

@@ -44,8 +44,40 @@ const checkUserJWT = (req, res, next) => {
     });
   }
 };
+const checkUserPermission = (req, res, next) => {
+  if (req.user) {
+    console.log(req.user);
+    let email = req.user.email;
+    let roles = req.user.groupWithRole.Roles;
+    let currentUrl = req.path;
+    if (!roles || roles.length === 0) {
+      return res.status(403).json({
+        mes: "you don't permission to access this resource",
+        err: -1,
+        data: "",
+      });
+    }
+    let canAccess = roles.some((item) => item.url === currentUrl);
+    if (canAccess === true) {
+      next();
+    } else {
+      return res.status(403).json({
+        mes: "you don't permission to access this resource",
+        err: -1,
+        data: "",
+      });
+    }
+  } else {
+    return res.status(401).json({
+      mes: "not authenticated the user",
+      err: -1,
+      data: "",
+    });
+  }
+};
 module.exports = {
   createJWT,
   verifyToken,
   checkUserJWT,
+  checkUserPermission,
 };

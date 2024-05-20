@@ -20,6 +20,4 @@ app.use(cookieParser());
 initApiRoutes(app);
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log("Back end Running the port " + PORT);
-});
+app.listen(PORT);

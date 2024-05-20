@@ -11,7 +11,7 @@ const init = async (req, res) => {
 
 const get = async (req, res) => {
   let data = {};
-  // console.log(req.user);
+  console.log(req.user);
   data = await userService.get();
   return res.status(200).json({
     mes: data.mes,
