@@ -9,41 +9,40 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 import { Stack } from "react-bootstrap";
 import Icon from "@mui/material/Icon";
-import usersTableData from "layouts/ADev/ManagerUser/data/usersTableData";
-import { useEffect, useState } from "react";
+import rolesTableData from "layouts/ADev/ManagerRole/data/rolesTableData";
 import ModalSave from "./ModalSave";
 import ModalDelete from "./ModalDelete";
 import ModalEdit from "./ModalEdit";
 import { fetchAllUsers } from "../../../redux/slices/userSlice";
-import { fetchAllGroups } from "../../../redux/slices/groupSlice";
+import { fetchAllRoles } from "../../../redux/slices/RoleSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleUserSav } from "../../../redux/slices/togetherSlice";
+import { toggleRoleSav } from "../../../redux/slices/togetherSlice";
+import { useEffect } from "react";
 
 const index = () => {
   const dispatch = useDispatch();
   // Init state
-  const { columns, rows } = usersTableData();
-  const toggleUserSae = useSelector((state) => state.together.toggleUserSav);
-  const toggleUserEdi = useSelector((state) => state.together.toggleUserEdi);
-  const toggleUserDel = useSelector((state) => state.together.toggleUserDel);
+  const { columns, rows } = rolesTableData();
+  const toggleRoleSae = useSelector((state) => state.together.toggleRoleSav);
+  const toggleRoleEdi = useSelector((state) => state.together.toggleRoleEdi);
+  const toggleRoleDel = useSelector((state) => state.together.toggleRoleDel);
 
-  // Effect app
   useEffect(() => {
-    dispatch(fetchAllUsers());
+    dispatch(fetchAllRoles());
   }, []);
   // Create function
   const fetchData = async () => {
     dispatch(fetchAllUsers());
-    dispatch(fetchAllGroups());
+    dispatch(fetchAllRoles());
   };
   const handleToggleModalSave = () => {
-    dispatch(toggleUserSav());
+    dispatch(toggleRoleSav());
   };
   return (
     <>
-      <ModalSave show={toggleUserSae} reload={fetchData} />
-      <ModalDelete show={toggleUserDel} />
-      <ModalEdit show={toggleUserEdi} reload={fetchData} />
+      <ModalSave show={toggleRoleSae} reload={fetchData} />
+      <ModalDelete show={toggleRoleDel} />
+      <ModalEdit show={toggleRoleEdi} reload={fetchData} />
       <DashboardLayout>
         <DashboardNavbar />
         <MDBox pt={6} pb={3}>
@@ -63,7 +62,7 @@ const index = () => {
                   <Stack direction="horizontal" gap={3}>
                     <div className="p-2">
                       <MDTypography variant="h6" color="white">
-                        Users Table
+                        Role Table
                       </MDTypography>
                     </div>
                     <div className="p-2 ms-auto">

@@ -8,14 +8,15 @@ import Icon from "@mui/material/Icon";
 import { Link } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  toggleUserDel,
-  idUserDel,
-  toggleUserEdi,
-  dataUserEdi,
+  toggleRoleDel,
+  idRoleDel,
+  toggleRoleEdi,
+  dataRoleEdi,
 } from "../../../../redux/slices/togetherSlice";
 const data = () => {
-  const users = useSelector((state) => state.user.list);
+  const roles = useSelector((state) => state.role.list);
   const dispatch = useDispatch();
+  // console.log(roles);
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -27,6 +28,7 @@ const data = () => {
       </MDBox>
     </MDBox>
   );
+
   const Job = ({ title, description }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
@@ -35,6 +37,7 @@ const data = () => {
       <MDTypography variant="caption">{description}</MDTypography>
     </MDBox>
   );
+
   const dateShow = (string) => {
     var date = new Date(string);
     return (
@@ -46,24 +49,21 @@ const data = () => {
     );
   };
   const handleToggleModalDelete = (id) => {
-    dispatch(toggleUserDel());
-    dispatch(idUserDel(id));
+    dispatch(toggleRoleDel());
+    dispatch(idRoleDel(id));
   };
+
   const handleToggleModalEdit = (data) => {
-    dispatch(toggleUserEdi());
-    dispatch(dataUserEdi(data));
+    dispatch(toggleRoleEdi());
+    dispatch(dataRoleEdi(data));
   };
+
   const infoList = () => {
     let data = [];
-    users.forEach((item) => {
+    roles.forEach((item) => {
       data.push({
-        user: <Author image={team2} name={item.userName} email={item.email} />,
-        group: (
-          <Job
-            title={item.Group ? item.Group.name : ""}
-            description={item.Group ? item.Group.description : ""}
-          />
-        ),
+        role: <Job title={item.name} description={""} />,
+        description: <Job title={""} description={item.description} />,
         status: (
           <MDBox ml={-1}>
             <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
@@ -112,8 +112,8 @@ const data = () => {
 
   return {
     columns: [
-      { Header: "user", accessor: "user", width: "40%", align: "left" },
-      { Header: "group", accessor: "group", align: "left" },
+      { Header: "role", accessor: "role", width: "30%", align: "left" },
+      { Header: "description", accessor: "description", align: "left" },
       { Header: "status", accessor: "status", align: "center" },
       { Header: "employed", accessor: "employed", align: "center" },
       { Header: "action", accessor: "action", align: "center" },

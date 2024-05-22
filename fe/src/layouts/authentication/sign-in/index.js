@@ -1,47 +1,34 @@
-import { useState } from "react";
-
-// react-router-dom components
+import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-// @mui material components
 import Card from "@mui/material/Card";
 import Switch from "@mui/material/Switch";
 import Grid from "@mui/material/Grid";
 import MuiLink from "@mui/material/Link";
-
-// @mui icons
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-
-// Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
-
-// Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-import { useRef } from "react";
 import { toast } from "react-toastify";
 import { signIn } from "apis/authencation";
-
+import { user } from "../../../redux/slices/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 const Basic = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const email = useRef();
   const password = useRef();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const validateEmail = (email) => {
     let re =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     return re.test(email);
   };
-
   const handleSignIn = async () => {
     let data = {
       email: email.current.value,
@@ -53,10 +40,15 @@ const Basic = () => {
     } else {
       if (validateEmail(data.email)) {
         let res = await signIn(data);
+        console.log(res);
         if (res.data !== null) {
           if (res.err === 0) {
+            dispatch(user(res.data));
+            sessionStorage.setItem("userLogin", res.data.email);
             toast.success(res.mes);
             navigate("/dashboard");
+
+            localStorage.setItem("jwt", res.data.access_token);
           } else {
             toast.error(res.mes);
           }

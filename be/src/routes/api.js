@@ -5,29 +5,15 @@ import roleController from "../controllers/roleController";
 import authenController from "../controllers/authenController";
 import { checkUserJWT, checkUserPermission } from "../middlewares/JWTActions";
 const router = e.Router();
-// const checkUserLogin = (req, res, next) => {
-//   const nonSecurePaths = ["/signIn", "/signUp"];
-//   if (nonSecurePaths.includes(req.path)) return next();
 
-//   //authenticate user
-//   // if (user) {
-//   //   next();
-//   // } else {
-//   // }
-// };
 const initApiRoutes = (app) => {
-  // router.all("*", checkUserLogin);
+  router.all("*", checkUserJWT, checkUserPermission);
   /** Authentication */
   router.post("/signIn", authenController.signIn);
   router.post("/signUp", authenController.signUp);
   /** Router user */
   router.post("/user/init", userController.init);
-  router.get(
-    "/user/get",
-    checkUserJWT,
-    checkUserPermission,
-    userController.get
-  );
+  router.get("/user/get", userController.get);
   router.post("/user/get/one", userController.getOne);
   router.put("/user/set", userController.set);
   router.delete("/user/des", userController.des);

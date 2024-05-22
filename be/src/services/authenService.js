@@ -42,6 +42,7 @@ const signIn = async (data) => {
         let payload = {
           email: user.email,
           groupWithRole,
+          expiresIn: 60,
         };
         let token = createJWT(payload);
         return {
@@ -50,7 +51,8 @@ const signIn = async (data) => {
           data: {
             access_token: token,
             groupWithRole,
-            expiresIn: 60,
+            email: user.email,
+            user: user.userName,
           },
         };
       } else {
