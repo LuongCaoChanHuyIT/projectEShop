@@ -13,6 +13,12 @@ const initialState = {
   toggleGroupEdi: false,
   idGroupDel: 0,
   dataGroupEdi: {},
+  //role
+  toggleRoleSav: false,
+  toggleRoleDel: false,
+  toggleRoleEdi: false,
+  idRoleDel: 0,
+  dataRoleEdi: {},
 };
 
 export const togetherSlice = createSlice({
@@ -51,6 +57,22 @@ export const togetherSlice = createSlice({
     dataGroupEdi: (state, data) => {
       state.dataGroupEdi = data;
     },
+    //role
+    toggleRoleDel: (state) => {
+      state.toggleRoleDel = !state.toggleRoleDel;
+    },
+    toggleRoleSav: (state) => {
+      state.toggleRoleSav = !state.toggleRoleSav;
+    },
+    toggleRoleEdi: (state) => {
+      state.toggleRoleEdi = !state.toggleRoleEdi;
+    },
+    idRoleDel: (state, id) => {
+      state.idRoleDel = id;
+    },
+    dataRoleEdi: (state, data) => {
+      state.dataRoleEdi = data;
+    },
   },
 });
 
@@ -68,6 +90,12 @@ export const {
   toggleGroupEdi,
   idGroupDel,
   dataGroupEdi,
+  //role
+  toggleRoleSav,
+  toggleRoleDel,
+  toggleRoleEdi,
+  idRoleDel,
+  dataRoleEdi,
 } = togetherSlice.actions;
 
 export default togetherSlice.reducer;

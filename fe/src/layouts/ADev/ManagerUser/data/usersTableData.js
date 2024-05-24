@@ -14,8 +14,9 @@ import {
   dataUserEdi,
 } from "../../../../redux/slices/togetherSlice";
 const data = () => {
-  const users = useSelector((state) => state.user.list);
+  const list = useSelector((state) => state.user.list);
   const dispatch = useDispatch();
+
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -55,7 +56,8 @@ const data = () => {
   };
   const infoList = () => {
     let data = [];
-    users.forEach((item) => {
+
+    list.forEach((item) => {
       data.push({
         user: <Author image={team2} name={item.userName} email={item.email} />,
         group: (

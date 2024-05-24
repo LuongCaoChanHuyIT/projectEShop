@@ -10,7 +10,7 @@ import DataTable from "examples/Tables/DataTable";
 import { Stack } from "react-bootstrap";
 import Icon from "@mui/material/Icon";
 import usersTableData from "layouts/ADev/ManagerUser/data/usersTableData";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ModalSave from "./ModalSave";
 import ModalDelete from "./ModalDelete";
 import ModalEdit from "./ModalEdit";
@@ -22,6 +22,7 @@ import { toggleUserSav } from "../../../redux/slices/togetherSlice";
 const index = () => {
   const dispatch = useDispatch();
   // Init state
+
   const { columns, rows } = usersTableData();
   const toggleUserSae = useSelector((state) => state.together.toggleUserSav);
   const toggleUserEdi = useSelector((state) => state.together.toggleUserEdi);
@@ -78,9 +79,9 @@ const index = () => {
                 <MDBox pt={3}>
                   <DataTable
                     table={{ columns, rows }}
-                    isSorted={false}
-                    entriesPerPage={false}
-                    showTotalEntries={false}
+                    isSorted={true}
+                    entriesPerPage={true}
+                    showTotalEntries={true}
                     noEndBorder
                   />
                 </MDBox>

@@ -37,11 +37,8 @@ const checkUserJWT = (req, res, next) => {
   let cookies = req.cookies;
   // console.log(req);
   let tokenFormHeader = extractToken(req);
-  if ((cookies && cookies.jwtUserData) || tokenFormHeader) {
-    let token =
-      cookies && cookies.jwtUserData
-        ? cookies.jwtUserData
-        : tokenFormHeader + "";
+  if ((cookies && cookies.jwt) || tokenFormHeader) {
+    let token = cookies && cookies.jwt ? cookies.jwt : tokenFormHeader + "";
     // console.log(token);
     let decoded = verifyToken(token);
     if (decoded) {

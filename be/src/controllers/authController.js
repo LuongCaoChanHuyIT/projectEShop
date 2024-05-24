@@ -1,11 +1,13 @@
-import authenService from "../services/authenService";
+import authService from "../services/authService";
 
 const signIn = async (req, res) => {
   let data = {};
-  data = await authenService.signIn(req.body);
+  data = await authService.signIn(req.body);
+
   if (data && data.data && data.data.access_token) {
-    res.cookie("jwtUserData", data.data.access_token, {
-      maxAge: 60 * 60 * 1000,
+    // console.log(data);
+    res.cookie("jwt", data.data.access_token, {
+      maxAge: 3600000,
       httpOnly: false,
     });
   }
@@ -18,7 +20,7 @@ const signIn = async (req, res) => {
 
 const signUp = async (req, res) => {
   let data = {};
-  data = await authenService.signUp(req.body);
+  data = await authService.signUp(req.body);
   return res.status(200).json({
     mes: data.mes,
     err: data.err,

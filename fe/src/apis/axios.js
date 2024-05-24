@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 const instance = axios.create({
   baseURL: "http://localhost:8080/api",
 });
-// const navigate = useNavigate();
 
 instance.defaults.withCredentials = true;
 // // Alter defaults after instance has been created

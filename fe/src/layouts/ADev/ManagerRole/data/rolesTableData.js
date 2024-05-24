@@ -13,10 +13,9 @@ import {
   toggleRoleEdi,
   dataRoleEdi,
 } from "../../../../redux/slices/togetherSlice";
-const data = () => {
-  const roles = useSelector((state) => state.role.list);
+const data = (roles) => {
   const dispatch = useDispatch();
-  // console.log(roles);
+  console.log(roles);
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -62,7 +61,7 @@ const data = () => {
     let data = [];
     roles.forEach((item) => {
       data.push({
-        role: <Job title={item.name} description={""} />,
+        role: <Job title={item.url} description={""} />,
         description: <Job title={""} description={item.description} />,
         status: (
           <MDBox ml={-1}>

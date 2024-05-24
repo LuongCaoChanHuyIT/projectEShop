@@ -97,7 +97,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return returnValue;
   });
   const handleLogout = () => {
-    Cookies.remove("jwtUserData");
+    Cookies.remove("jwt");
     localStorage.removeItem("jwt");
     navigate("/");
   };

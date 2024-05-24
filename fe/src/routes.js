@@ -9,10 +9,11 @@ import SignUp from "layouts/authentication/sign-up";
 import Icon from "@mui/material/Icon";
 import ManagerUser from "layouts/ADev/ManagerUser";
 import ManagerGroup from "layouts/ADev/ManagerGroup";
+import ManagerRole from "layouts/ADev/ManagerRole";
 import Cookies from "js-cookie";
 const routes = () => {
-  const isLogin = Cookies.get("jwtUserData") ? true : localStorage.getItem("jwt") ? true : false;
-
+  const isLogin = Cookies.get("jwt") ? true : localStorage.getItem("jwt") ? true : false;
+  // const isLogin = true;
   return [
     isLogin
       ? {
@@ -42,6 +43,17 @@ const routes = () => {
           icon: <Icon fontSize="small">group</Icon>,
           route: "/manager/group",
           component: <ManagerGroup />,
+        }
+      : {},
+    {},
+    isLogin
+      ? {
+          type: "collapse",
+          name: "Manager role",
+          key: "ManagerRole",
+          icon: <Icon fontSize="small">table_view</Icon>,
+          route: "/manager/role",
+          component: <ManagerRole />,
         }
       : {},
     {},

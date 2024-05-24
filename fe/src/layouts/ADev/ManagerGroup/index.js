@@ -79,9 +79,9 @@ const index = () => {
                 <MDBox pt={3}>
                   <DataTable
                     table={{ columns, rows }}
-                    isSorted={false}
-                    entriesPerPage={false}
-                    showTotalEntries={false}
+                    isSorted={true}
+                    entriesPerPage={true}
+                    showTotalEntries={true}
                     noEndBorder
                   />
                 </MDBox>

@@ -2,15 +2,15 @@ import e from "express";
 import userController from "../controllers/userController";
 import groupController from "../controllers/groupController";
 import roleController from "../controllers/roleController";
-import authenController from "../controllers/authenController";
+import authController from "../controllers/authController";
 import { checkUserJWT, checkUserPermission } from "../middlewares/JWTActions";
 const router = e.Router();
 
 const initApiRoutes = (app) => {
   router.all("*", checkUserJWT, checkUserPermission);
   /** Authentication */
-  router.post("/signIn", authenController.signIn);
-  router.post("/signUp", authenController.signUp);
+  router.post("/signIn", authController.signIn);
+  router.post("/signUp", authController.signUp);
   /** Router user */
   router.post("/user/init", userController.init);
   router.get("/user/get", userController.get);
@@ -19,13 +19,14 @@ const initApiRoutes = (app) => {
   router.delete("/user/des", userController.des);
   /** Router group */
   router.post("/group/init", groupController.init);
-  router.get("/group/get", checkUserJWT, groupController.get);
+  router.get("/group/get", groupController.get);
   router.post("/group/get/one", groupController.getOne);
   router.put("/group/set", groupController.set);
   router.delete("/group/des", groupController.des);
   /** Router role */
   router.post("/role/init", roleController.init);
   router.get("/role/get", roleController.get);
+  router.post("/role/get/one", roleController.getOne);
   router.put("/role/set", roleController.set);
   router.delete("/role/des", roleController.des);
   return app.use("/api", router);

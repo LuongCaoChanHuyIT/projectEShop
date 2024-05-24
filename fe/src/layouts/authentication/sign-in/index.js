@@ -14,9 +14,9 @@ import MDButton from "components/MDButton";
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import { toast } from "react-toastify";
-import { signIn } from "apis/authencation";
+import { signIn } from "apis/authentication";
 import { user } from "../../../redux/slices/authSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 const Basic = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const email = useRef();

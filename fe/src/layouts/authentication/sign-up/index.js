@@ -10,7 +10,7 @@ import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 import { useRef } from "react";
 import { hasPassword } from "../../ADev/bcryptFunc";
 import { toast } from "react-toastify";
-import { signUp } from "../../../apis/authencation";
+import { signUp } from "apis/authentication";
 const Cover = () => {
   const email = useRef();
   const password = useRef();

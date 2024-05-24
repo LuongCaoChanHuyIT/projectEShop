@@ -14,29 +14,28 @@ import ModalSave from "./ModalSave";
 import ModalDelete from "./ModalDelete";
 import ModalEdit from "./ModalEdit";
 import { fetchAllUsers } from "../../../redux/slices/userSlice";
-import { fetchAllRoles } from "../../../redux/slices/RoleSlice";
+import { fetchAllRoles } from "../../../redux/slices/roleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleRoleSav } from "../../../redux/slices/togetherSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const index = () => {
   const dispatch = useDispatch();
-  // Init state
-  const { columns, rows } = rolesTableData();
   const toggleRoleSae = useSelector((state) => state.together.toggleRoleSav);
   const toggleRoleEdi = useSelector((state) => state.together.toggleRoleEdi);
   const toggleRoleDel = useSelector((state) => state.together.toggleRoleDel);
-
+  const roles = useSelector((state) => state.role.list);
+  const { columns, rows } = rolesTableData(roles);
   useEffect(() => {
     dispatch(fetchAllRoles());
   }, []);
-  // Create function
+  // Create functions
   const fetchData = async () => {
-    dispatch(fetchAllUsers());
-    dispatch(fetchAllRoles());
+    // dispatch(fetchAllUsers());
+    // dispatch(fetchAllRoles());
   };
   const handleToggleModalSave = () => {
-    dispatch(toggleRoleSav());
+    // dispatch(toggleRoleSav());
   };
   return (
     <>
@@ -77,9 +76,9 @@ const index = () => {
                 <MDBox pt={3}>
                   <DataTable
                     table={{ columns, rows }}
-                    isSorted={false}
-                    entriesPerPage={false}
-                    showTotalEntries={false}
+                    isSorted={true}
+                    entriesPerPage={true}
+                    showTotalEntries={true}
                     noEndBorder
                   />
                 </MDBox>
